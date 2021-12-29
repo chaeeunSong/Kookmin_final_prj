@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ko">
+	{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+    <link rel="stylesheet" href="{% static 'fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'custom.css' %}">
+</head>
+<body>
+
+		<div class="wrap">
+
+
+			<div class="sidebar side_collapse" id="Sidebar">
+
+				<button class="side_btn hide-large close_btn" onclick="w3_close()"><i class="fas fa-times"></i></button>
+				<h2>Conference</h2>
+
+				<div class="bar_item_area">
+					<a href="{% url 'blogapp:board' %}" class="bar-item active"><i class="fas fa-home"></i> 홈으로</a>
+					<a href="{% url 'blogapp:create' %}" class="bar-item"><i class="fas fa-folder-plus"></i> 회의 만들기</a>
+					<a href="{% url 'blogapp:review' %}" class="bar-item "><i class="fas fa-search"></i> 회의록 보기</a>
+				</div>
+
+				{% if not user.is_authenticated %}
+					<div class="logout_area">
+						<a href="{% url 'accountapp:login' %}" class="btn logout_btn">로그인</a>
+					</div>
+				{% else %}
+					<div class="logout_area">
+						<a href="{% url 'accountapp:logout' %}" class="btn logout_btn">로그아웃</a>
+					</div>
+				{% endif %}
+
+			</div>
+
+
+			<!-- sidebar overlay-->
+			<div class="overlay animate-opacity" onclick="w3_close()" id="Overlay"></div>
+
+
+			<div class="small_bar navbar-fixed-top">
+				<button class="side_btn open_btn hide-large" onclick="w3_open()"><i class="fas fa-bars"></i></button>
+			</div>
+
+
+			<div class="main">
+				<div class="container-fluid">
+
+					<button class="btn top_btn" onclick="topFunction()" id="topBtn" title="상단으로 이동하기"><i class="fas fa-arrow-alt-circle-up"></i></button>
+
+					<div class="row">
+
+					<!--대쉬보드-->
+						<div class="pointer " onclick="location.href='voice_meeting.html'" data-masonry='{"percentPosition": true}'>
+							 {% for blog in blogs %}
+							<div class="col-xs-12 col-sm-4 col-md-4 col-lg-3">
+							<div class="dash_board_top">
+							</div>
+							<div class="dash_board">
+
+								<div class="text-right">
+									<a href="{% url 'blogapp:delete' pk=blog.pk %}"><i class="fas fa-times times"></i></a>
+								</div>
+
+								<div class="dash_board_content">
+									<a href="{% url 'blogapp:update' pk=blog.pk %}">
+										<div>
+										<span class="date">{{ blog.up_to_date }}</span>
+										<h4 class="title">{{ blog.blog_title }}</h4>
+										<p>{{ blog.blog_content }}</p>
+										</div>
+									</a>
+								</div>
+							</div>
+							</div>
+							{% endfor %}
+						</div>
+					<!--끝-->
+
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+
+
+
+</body>
+</html>

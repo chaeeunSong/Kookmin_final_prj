@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="ko">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="{% static 'fonts.css' %}">
+    <link rel="stylesheet" href="{% static 'custom.css' %}">
+		<style>
+			a{display:inline;}
+		</style>
+</head>
+<body>
+
+
+		<!-- 발언내용 수정하기 modal -->
+		<div class="modal fade" id="mod_user_speech" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header text-center">
+						<h3 class="modal-title">내용 수정하기</h3>
+					</div>
+					<div class="modal-body">
+						<form>
+		  					<div class="form-group">
+								<textarea class="form-control" rows="4" value="발언 내용"></textarea>
+							</div>
+						</form>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default btn-lg cancle_btn" data-dismiss="modal">취소</button>
+						<button type="button" class="btn btn-default btn-lg active_btn" data-dismiss="modal">다음</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!--end-->
+
+
+		<div class="wrap">
+
+
+			<div class="sidebar side_collapse" id="Sidebar">
+
+				<button class="side_btn hide-large close_btn" onclick="w3_close()"><i class="fas fa-times"></i></button>
+				<h2>Conference</h2>
+
+				<div class="bar_item_area">
+					<a href="{% url 'blogapp:board' %}" class="bar-item"><i class="fas fa-home"></i> 홈으로</a>
+					<a href="{% url 'blogapp:create' %}" class="bar-item"><i class="fas fa-folder-plus"></i> 회의 만들기</a>
+					<a href="{% url 'blogapp:review' %}" class="bar-item"><i class="fas fa-search"></i> 회의록 보기</a>
+				</div>
+
+				{% if not user.is_authenticated %}
+					<div class="logout_area">
+						<a href="{% url 'accountapp:login' %}" class="btn logout_btn">로그인</a>
+					</div>
+				{% else %}
+					<div class="logout_area">
+						<a href="{% url 'accountapp:logout' %}" class="btn logout_btn">로그아웃</a>
+					</div>
+				{% endif %}
+
+			</div>
+
+
+			<!-- sidebar overlay-->
+			<div class="overlay animate-opacity" onclick="w3_close()" id="Overlay"></div>
+
+
+			<div class="small_bar navbar-fixed-top">
+				<button class="side_btn open_btn hide-large" onclick="w3_open()"><i class="fas fa-bars"></i></button>
+			</div>
+
+
+			<div class="main">
+				<div class="container-fluid">
+
+					<button class="btn top_btn" onclick="topFunction()" id="topBtn" title="상단으로 이동하기"><i class="fas fa-arrow-alt-circle-up"></i></button>
+
+					<a href="{% url 'blogapp:review'%}" class="reply">
+						<i class="fas fa-reply"></i>
+					</a>
+
+					<div class="box_shadow">
+						<label class="date">0000-00-00</label>
+						<h3 class="title">{{ blogObj.blog_title }}</h3>
+
+					</div>
+
+					<div class="box_shadow log_detail">
+
+						<div class="line media">
+							<div class="media-left media-top">
+								<div class="left_size">
+									<label class="name">{{ blogObj.blog_title }}</label>
+									<label class="date">{{ blogObj.up_to_date }}</label>
+								</div>
+							</div>
+							<div class="media-body">
+								<p class="contents">{{ blogObj.blog_content }}</p>
+							</div>
+							<div class="media-right">
+								<div class="right_size">
+									<a href="{% url 'blogapp:update' pk=blogObj.pk %}" data-toggle="modal"class="mod_btn"><i class="fas fa-cog"></i></a>
+									<a href="{% url 'blogapp:delete' pk=blogObj.pk %}" class="delete_btn"><i class="fas fa-times-circle"></i></a>
+								</div>
+							</div>
+						</div>
+
+
+
+					</div>
+
+				</div>
+			</div>
+
+
+		</div>
+
+
+
+
+
+</body>
+</html>
